@@ -2,10 +2,10 @@ init = () =>
 	@class = @@
 	@type = _.lowerFirst(@@name)
 
-class Class
+class Caste
 
-	@name: 'Class'
-	@type: 'class'
+	@name: 'Caste'
+	@type: 'caste'
 	@parents: { @ }
 	@isClass: true
 
