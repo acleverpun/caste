@@ -1,4 +1,5 @@
-_ = require('lib/utils')
+__dirname = (...)\match('(.-)[^%/%.]+$')
+_ = require(__dirname .. 'utils')
 
 init = () =>
 	@class = @@

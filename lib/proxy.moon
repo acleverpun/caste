@@ -1,4 +1,5 @@
-Caste = require('lib/caste')
+__dirname = (...)\match('(.-)[^%/%.]+$')
+Caste = require(__dirname .. 'caste')
 
 (ProxyClass) ->
 	init = () =>
