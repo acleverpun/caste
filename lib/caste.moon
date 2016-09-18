@@ -1,3 +1,5 @@
+_ = require('lib/utils')
+
 init = () =>
 	@class = @@
 	@type = _.lowerFirst(@@name)
@@ -24,17 +26,17 @@ class Caste
 
 	-- new: () => init(@)
 
-	is: (type) =>
-		if type == @ then return true
-		if type == @@ then return true
-		if type == @type then return true
-		if type == @@name then return true
+	is: (value) =>
+		if value == @ then return true
+		if value == @@ then return true
+		if value == @type then return true
+		if value == @@name then return true
 
-		if _.isString(type)
-			return _.some(@@parents, (Parent) -> _.includes({ Parent.type, Parent.name }, type))
-		if _.isInstance(type)
-			return _.some(@@parents, (Parent) -> type.class == Parent)
-		if _.isClass(type)
-			return _.some(@@parents, (Parent) -> type == Parent)
+		if type(value) == 'string'
+			return _.some(@@parents, (Parent) -> _.includes({ Parent.type, Parent.name }, value))
+		if not not value.isInstance
+			return _.some(@@parents, (Parent) -> value.class == Parent)
+		if not not value.isClass
+			return _.some(@@parents, (Parent) -> value == Parent)
 
 		return false
