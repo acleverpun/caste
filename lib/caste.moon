@@ -25,19 +25,20 @@ class Caste
 			init(@)
 			constructor(@, ...)
 
-	-- new: () => init(@)
+	@is: (value) =>
+		if value == @ then return true
+		if value == @name then return true
+
+		if type(value) == 'string'
+			return _.some(@parents, (Parent) -> _.includes({ Parent.type, Parent.name }, value))
+		if value.isInstance
+			return _.some(@parents, (Parent) -> value.class == Parent)
+		if value.isClass
+			return _.some(@parents, (Parent) -> value == Parent)
+
+		return false
 
 	is: (value) =>
 		if value == @ then return true
-		if value == @@ then return true
 		if value == @type then return true
-		if value == @@name then return true
-
-		if type(value) == 'string'
-			return _.some(@@parents, (Parent) -> _.includes({ Parent.type, Parent.name }, value))
-		if not not value.isInstance
-			return _.some(@@parents, (Parent) -> value.class == Parent)
-		if not not value.isClass
-			return _.some(@@parents, (Parent) -> value == Parent)
-
-		return false
+		return @@is(value)
