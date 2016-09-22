@@ -29,11 +29,12 @@ class Caste
 		if value == @ then return true
 		if value == @name then return true
 
-		if type(value) == 'string'
+		valueType = type(value)
+		if valueType == 'string'
 			return _.some(@parents, (Parent) -> _.includes({ Parent.type, Parent.name }, value))
-		if value.isInstance
+		if valueType == 'table' and value.isInstance
 			return _.some(@parents, (Parent) -> value.class == Parent)
-		if value.isClass
+		if valueType == 'table' and value.isClass
 			return _.some(@parents, (Parent) -> value == Parent)
 
 		return false
