@@ -19,6 +19,11 @@ class Caste
 		child.type = _.lowerFirst(child.name)
 		child.parents = _.union(@@parents, { @@ })
 
+		-- Inherit metamethods
+		for key, value in next, @__base
+			if string.sub(key, 1, 2) == '__'
+				child.__base[key] or= value
+
 		-- Call setup code in constructor, so children do not need to call `super`
 		constructor = child.__init
 		child.__init = (...) =>
