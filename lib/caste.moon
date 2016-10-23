@@ -4,15 +4,14 @@ _ = require(__dirname .. 'utils')
 init = () =>
 	@class = @@
 	@type = _.lowerFirst(@@name)
+	@isInstance = true
 
 class Caste
 
 	@name: 'Caste'
 	@type: 'caste'
-	@parents: { @ }
+	@parents: {}
 	@isClass: true
-
-	isInstance: true
 
 	@__inherited: (child) =>
 		child.name = child.__name
@@ -30,6 +29,7 @@ class Caste
 			init(@)
 			constructor(@, ...)
 
+	-- TODO: invert this, so you're figuring out if a thing is an instance of this class
 	@is: (value) =>
 		if value == @ then return true
 		if value == @name then return true
