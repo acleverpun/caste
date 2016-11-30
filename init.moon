@@ -9,7 +9,13 @@ export req = (path, file) ->
 		dir ..= "#{part}."
 	require(dir .. file)
 
-{
+exports = {
 	Caste: req(..., 'lib.caste'),
 	Proxy: req(..., 'lib.proxy'),
+	helpers: req(..., 'lib.helpers'),
 }
+
+for name, helper in pairs(exports.helpers)
+	exports[name] = helper
+
+return exports
