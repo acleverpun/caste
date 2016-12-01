@@ -24,7 +24,7 @@ class Caste
 
 		for key, value in pairs child.__base
 			if type(value) == 'table' and value.isHelper
-				value\setKey(key)
+				value\apply(key)
 
 		-- Call setup code in constructor, so children do not need to call `super`
 		constructor = child.__init
