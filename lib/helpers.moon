@@ -1,6 +1,10 @@
+Helper = req(..., 'lib.helpers.helper')
+
 {
-	virtual: (methods) =>
-		if type(methods) == 'string' then methods = { [methods]: false }
-		for name in pairs(methods)
-			@__base[name] = () => error("Virtual method '#{name}' has not been overridden.")
+	abstract: (cls) => cls
+
+	virtual: class extends Helper
+		__call: () => error("Virtual method '#{@key}' has not been overridden.")
+
+	:Helper
 }

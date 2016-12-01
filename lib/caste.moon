@@ -18,9 +18,13 @@ class Caste
 		child.parents = _.union(@@parents, { @@ })
 
 		-- Inherit metamethods
-		for key, value in next, @__base
+		for key, value in pairs @__base
 			if string.sub(key, 1, 2) == '__'
 				child.__base[key] or= value
+
+		for key, value in pairs child.__base
+			if type(value) == 'table' and value.isHelper
+				value\setKey(key)
 
 		-- Call setup code in constructor, so children do not need to call `super`
 		constructor = child.__init
