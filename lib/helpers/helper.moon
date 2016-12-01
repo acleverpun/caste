@@ -2,4 +2,4 @@ class Helper
 
 	isHelper: true
 
-	apply: (@key) =>
+	apply: (@parent, @key) =>

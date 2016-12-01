@@ -1,3 +1,4 @@
+moon = require('moon')
 _ = req(..., 'lib.utils')
 
 init = () =>
@@ -11,26 +12,36 @@ class Caste
 	@type: 'caste'
 	@parents: {}
 	@isClass: true
+	@__implements: {}
 
 	@__inherited: (child) =>
 		child.name = child.__name
 		child.type = _.lowerFirst(child.name)
 		child.parents = _.union(@@parents, { @@ })
 
+		for key, value in pairs child.__base
+			if type(value) == 'table' and value.isHelper
+				value\apply(child, key)
+
 		-- Inherit metamethods
 		for key, value in pairs @__base
 			if string.sub(key, 1, 2) == '__'
 				child.__base[key] or= value
-
-		for key, value in pairs child.__base
-			if type(value) == 'table' and value.isHelper
-				value\apply(key)
 
 		-- Call setup code in constructor, so children do not need to call `super`
 		constructor = child.__init
 		child.__init = (...) =>
 			init(@)
 			constructor(@, ...)
+
+	@implements: (...) =>
+		mixins = { ... }
+		for mixin in *mixins
+			constructor = mixin.__init
+			mixin.__init = mixin.__base.__apply
+			moon.mixin(@__base, mixin)
+			mixin.__init = constructor
+			table.insert(@__implements, mixin)
 
 	-- TODO: invert this, so you're figuring out if a thing is an instance of this class
 	@is: (value) =>
